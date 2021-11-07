@@ -1,3 +1,5 @@
 .replayer-wrapper{
     transform: translate(0,-50%) !important;
+    left: -15px;
+    top: 66%;
 }

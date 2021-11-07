@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Layout, Space, Card, Button, Input } from "antd";
 import { RedditOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { record, Replayer } from "rrweb";
+import { record } from "rrweb";
 import rrwebPlayer from "rrweb-player";
-import luImg from "../../images/lu.webp";
+import "rrweb-player/dist/style.css";
 import "./index.css";
 const { Sider, Content } = Layout;
 const { Search } = Input;
@@ -38,14 +38,24 @@ class RRWebPage extends Component {
     // 停止录制
     stopFun && stopFun();
     const self = this;
-    console.log(eventsList);
+    // console.log(eventsList);
     new rrwebPlayer({
       target: self.playRef,
+      width: 250,
+      height: 576,
+      speedOption: [1, 2, 4, 8],
       props: {
         events: eventsList,
         showController: false,
       },
     });
+  };
+
+  // 重置
+  handleReset = () => {
+    this.playRef = null;
+    stopFun = null;
+    eventsList = [];
   };
 
   // 添加行
@@ -123,13 +133,15 @@ class RRWebPage extends Component {
               录制
             </Button>
             <Button onClick={this.handleReplay}>回放</Button>
+            <Button onClick={this.handleReset}>重置</Button>
           </Space>
           <Space size={8} direction="vertical" style={{ margin: "5px auto" }}>
             <Card
-              title="edit"
+              title="编辑数据"
               style={{
+                paddingBottom: "5px",
                 width: 240,
-                height: 200,
+                height: 240,
                 overflowX: "hidden",
                 overflowY: "scroll",
               }}
@@ -156,19 +168,23 @@ class RRWebPage extends Component {
                 </p>
               )}
             </Card>
-            <Card
-              hoverable
-              style={{ width: 240 }}
-              cover={
-                <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                />
-              }
-            >
+            <Card hoverable title="回放配置" style={{ width: 240 }}>
               <Card.Meta
-                title="Europe Street beat"
-                description="www.instagram.com"
+                title="播放器宽度*高度"
+                description={<div>1024*576</div>}
+              />
+              <Card.Meta
+                title="是否自动播放"
+                description={
+                  <>
+                    <div>是</div>
+                    <div>否</div>
+                  </>
+                }
+              />
+              <Card.Meta
+                title="倍速播放可选值"
+                description={<div>[1, 2, 4, 8]</div>}
               />
             </Card>
           </Space>

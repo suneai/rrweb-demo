@@ -25,6 +25,32 @@
 4. 尽量记录 CSS 样式表的内容。如果被录制⻚⾯加载了⼀些同源的样式表，我们则可以获取到解析好的 CSS rules，录制时将能获取到的样式都 inline 化，这样可以让⼀些内⽹环境（如 localhost）的录制也有⽐较好的回放效果。
 
 
+#### 录制
+```
+npm install --save rrweb
+
+import { record } from "rrweb";
+
+```
+#### 回放 使用 rrweb-player
+```
+npm install --save rrweb-player
+
+import rrwebPlayer from 'rrweb-player';
+import 'rrweb-player/dist/style.css';
+```
+###### 使用
+> 通过 props 传入 events 数据及配置项
+```
+new rrwebPlayer({
+  target: document.body, // 可以自定义 DOM 元素
+  // 配置项
+  props: {
+    events,
+  },
+});
+
+```
 
 
 
