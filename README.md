@@ -1,10 +1,8 @@
 
 # rrweb 打开web页面录制与回放的黑盒
 #### `web` 录制回放基础库`rrweb`，它是将页面中的DOM以及用户操作保存为可序列化的数据，用以实现远程回放。用于前端的异常监控以及对应数据的收集。
-[rrweb文档链接](https://github.com/rrweb-io/rrweb/blob/master/guide.zh_CN.md)
-###### 基于`LogRocket`一个像素级的录制与回放工具，做的二次封装。
-[LogRocket文档链接](https://logrocket.com/)
 
+###### 基于`LogRocket`一个像素级的录制与回放工具，做的二次封装。
 ### rrweb应用场景
 1. 记录用户使用产品的方式并加以分析，进一步优化产品
 2. 采集用户遇到的bug操作路径，予以复现
@@ -67,6 +65,8 @@ new rrwebPlayer({
 ###### rrweb 使用demo
 [github链接](https://github.com/suneai/rrweb-demo)
 ###### 参考文档
+[rrweb文档链接](https://github.com/rrweb-io/rrweb/blob/master/guide.zh_CN.md)
+[LogRocket文档链接](https://logrocket.com/)
 [参考文档](https://zhuanlan.zhihu.com/p/60639266)
 [参考文档](https://juejin.cn/post/6844903925213036552)
 [react的路由配置](https://blog.csdn.net/hbiao68/article/details/98736501)

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Layout, Space, Card, Button, Input } from "antd";
 import { RedditOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { record } from "rrweb";
+import { record , Replayer } from "rrweb";
 import rrwebPlayer from "rrweb-player";
 import "rrweb-player/dist/style.css";
 import "./index.css";
@@ -15,6 +15,7 @@ class RRWebPage extends Component {
     super(props);
     this.state = {
       listData: [],
+      replayerDisable: true, // replayer按钮状态
     };
     this.playRef = null;
   }
@@ -31,24 +32,30 @@ class RRWebPage extends Component {
         eventsList = tempEvents;
       },
     });
+    
   };
 
+  handleStopRecord = () => { eventsList.length > 2 && this.setState({ replayerDisable : false }) }
   // 回放
   handleReplay = () => {
-    // 停止录制
-    stopFun && stopFun();
-    const self = this;
-    // console.log(eventsList);
-    new rrwebPlayer({
-      target: self.playRef,
-      width: 250,
-      height: 576,
-      speedOption: [1, 2, 4, 8],
-      props: {
-        events: eventsList,
-        showController: false,
-      },
-    });
+    if (!stopFun) {
+      return
+    } else {
+      // 停止录制
+      stopFun()
+      const self = this;
+      new rrwebPlayer({
+        target: self.playRef,
+        props: {
+          events: eventsList,
+          showController: true,
+          width: 1024,
+          height: 576,
+          autoPlay: false,
+          speedOption: [1, 2, 4, 8],
+        },
+      });
+    }
   };
 
   // 重置
@@ -111,7 +118,7 @@ class RRWebPage extends Component {
   };
 
   render() {
-    const { listData } = this.state;
+    const { listData , replayerDisable } = this.state;
     return (
       <Layout
         direction="vertical"
@@ -129,11 +136,10 @@ class RRWebPage extends Component {
           className="site-layout-background"
         >
           <Space size={10} style={{ margin: "5px auto" }}>
-            <Button onClick={this.handleRecord} type="primary">
-              录制
-            </Button>
-            <Button onClick={this.handleReplay}>回放</Button>
-            <Button onClick={this.handleReset}>重置</Button>
+            <Button onClick={this.handleRecord} size="small" type="primary">录制</Button>
+            <Button onClick={this.handleStopRecord} size="small">停止</Button>
+            <Button disabled={replayerDisable} onClick={this.handleReplay} size="small" type="primary">回放</Button>
+            <Button disabled={replayerDisable} onClick={this.handleReset} size="small">重置</Button>
           </Space>
           <Space size={8} direction="vertical" style={{ margin: "5px auto" }}>
             <Card
@@ -141,9 +147,6 @@ class RRWebPage extends Component {
               style={{
                 paddingBottom: "5px",
                 width: 240,
-                height: 240,
-                overflowX: "hidden",
-                overflowY: "scroll",
               }}
             >
               <Search
@@ -167,25 +170,6 @@ class RRWebPage extends Component {
                   暂无数据
                 </p>
               )}
-            </Card>
-            <Card hoverable title="回放配置" style={{ width: 240 }}>
-              <Card.Meta
-                title="播放器宽度*高度"
-                description={<div>1024*576</div>}
-              />
-              <Card.Meta
-                title="是否自动播放"
-                description={
-                  <>
-                    <div>是</div>
-                    <div>否</div>
-                  </>
-                }
-              />
-              <Card.Meta
-                title="倍速播放可选值"
-                description={<div>[1, 2, 4, 8]</div>}
-              />
             </Card>
           </Space>
         </Sider>
