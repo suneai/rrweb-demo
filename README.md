@@ -56,21 +56,25 @@ document.replaceChild(docEl, document.documentElement);
 1. 应该基于导致视图的变更制作快照。
 2. 要控制录制结果的体积。
 
-在完成一次全量快照之后，我们就需要基于当前视图状态观察所有可能对视图造成改动的事件，在 rrweb 中已经观察了以下事件（将不断增加）：
+在完成一次全量快照之后，我们就需要基于当前视图状态观察所有可能对视图造成改动的事件，在 rrweb 中已经观察了以下事件（后面维护将不断增加）：
 
-  DOM 变动
-    · 节点创建、销毁
-    · 节点属性变化
-    · 文本变化
-  鼠标移动
-  鼠标交互
-    · mouse up、mouse down
-    · click、double click、context menu
-    · focus、blur
-    · touch start、touch move、touch end
-  页面或元素滚动
-  视窗大小改变
-  输入
+    DOM 变动
+      · 节点创建、销毁
+      · 节点属性变化
+      · 文本变化
+    鼠标移动
+    鼠标交互
+      · mouse up、mouse down
+      · click、double click、context menu
+      · focus、blur
+      · touch start、touch move、touch end
+    页面或元素滚动
+    视窗大小改变
+    输入
+
+对于每个操作我们只需要记录其操作类型和相关的数据，就可以在回放时重现对应的操作，也就回放了该操作对视图的改变。
+
+这样我们只需要在开始录制时制作⼀个完整的 DOM 快照，之后则记录所有的操作数据，这些操作数据我们称之为 Oplog（operations log）。
 
 针对以上rrweb观察的事件，仅例举部分例子加以说明：
 > 场景： 点击 button，出现 dropdown menu，选择第一项，dropdown menu 消失
